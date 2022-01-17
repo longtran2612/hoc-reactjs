@@ -9,12 +9,17 @@ import { useEffect,useState } from 'react'
 //useEffect(callback,[dependentces])
 //-- callback goi lai khi deps thay doi
 
+
 //1. call back luon luon goi sau khi component mounted
+//2. cleanup funtion
 const tabs =['posts','photos','albums']
 export default function Content() {
     const [posts, setposts] = useState([])
     const [style, setstyle] = useState('posts')
-
+    const [showgototop, setshowgototop] = useState(false)
+     const [size, setsize] = useState(
+         window.innerWidth
+     )
     //useEffect(callback,[dependentces])
     useEffect(()=>{
         console.log('title changed')
@@ -24,12 +29,33 @@ export default function Content() {
                 setposts(posts)
             })
     },[style])
+    useEffect(()=>{
+        const handlleSroll=()=>{
+            if(window.scrollY>=200){
+                setshowgototop(true)
+            }else
+            setshowgototop(false)
+        }
+
+        window.addEventListener('scroll',handlleSroll)
+         return()=>{
+             window.removeEventListener('scroll',handlleSroll)
+         }
+    },[])
+    useEffect(()=>{
+        const handleResize=()=>{
+            setsize(window.innerWidth)
+        }
+
+        window.addEventListener('resize',handleResize)
+    })
     
     
     
 
     return (
       <div>
+          <h1>{size}</h1>
           {
               tabs.map(tab=>(
                   <button key={tab}
@@ -44,6 +70,20 @@ export default function Content() {
            <li key={post.id}>{post.title}</li>
            ))}
        </ul>
+       {
+           showgototop && (
+               <button style={{position:'fixed',
+               right:20,
+               bottom :20,
+            }}
+            onClick={()=>setshowgototop(true)}
+            >
+                go to top
+                </button>
+           )
+               
+           
+       }
 
       </div>
           
