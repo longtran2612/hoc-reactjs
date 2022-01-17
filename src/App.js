@@ -1,39 +1,51 @@
 import './App.css';
 import{useState} from 'react';
 
-
 function App() {
 
-  
-  const [counter, setCounter] = useState(()=>{
-    const orders =[100,200,300]
-  const total = orders.reduce((total, cur)=> total +cur)
-  return total
-  });
-  const [info, setInfo] = useState({
-    name: 'long',
-    age: 12
-  })
-  
 
-  const OnIncreate =()=>{
-    setCounter(counter+1)
-  }
-  const handleUpdate=()=>{
-    setInfo({
-      ...info,
-      bio:'ngu'
+  
+  const [job, setjob] = useState('')
+  const [jobs, setjobs] = useState(
+    JSON.parse(localStorage.getItem('jobs')) ?? []
+  )
+
+  const onAdd=()=>{
+    setjobs(prev=>{
+    const newjobs = [...prev,job]
+    const jobJSON=  JSON.stringify(newjobs)
+    localStorage.setItem('jobs',jobJSON)
+    return newjobs
     })
+    setjob("")
+  }
+  const onDelete=(i)=>{
+   setjobs(prev=>{
+     const newjobs= [...prev];
+     newjobs.splice(i,1)
+
+     const jobJSON=  JSON.stringify(newjobs)
+     localStorage.setItem('jobs',jobJSON)
+
+     return newjobs;
+   })
 
   }
-
   return (
     <div className="App" style={{padding :20}}>
-     <h1>long ngu</h1>
-     <h1> {JSON.stringify(info)}</h1>
-     <button onClick={handleUpdate}>update</button>
-
-
+     <input value={job} onChange={e=>setjob(e.target.value)}/>
+     <button onClick={onAdd}>add</button>
+     <ul>
+       {jobs.map((job,i) => (
+        // <div >
+         <li key={i} >{job}
+         <button onClick={()=>onDelete(i)}>xoa</button>
+         </li>
+         
+        // </div>
+       ))}
+       
+     </ul>
     </div>
   );
 }
