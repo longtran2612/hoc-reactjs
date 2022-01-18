@@ -1,53 +1,49 @@
 import React from 'react'
-import { useEffect,useState } from 'react'
+import { useEffect,useState,useLayoutEffect,useRef } from 'react'
 
-const lesson =[
-    {
-        id:1,
-        title:'di choi'
-    },
-    {
-        id:2,
-        title:'di cho'
-    },
-    {
-        id:3,
-        title:'di hoc'
-    }
-]
+//useRef
+//
 
 export default function Fake() {
-    const [lessonid, setlessonid] = useState(1)
+    const [count, setcount] = useState(60)
 
-    
+    const timerId = useRef()
+
+    const prevCount = useRef()
+
+    const h1ref = useRef()
+    useEffect(() => {
+        console.log(h1ref.current);
+        return () => {
+            
+        }
+    }, [])
 
     useEffect(()=>{
-        const handleComment =({detail})=>{
-            console.log(detail);
-        }
-        // nhan event tu lesson-1
-        window.addEventListener(`lesson-${lessonid}`,handleComment)
-        return ()=>{
-            window.removeEventListener(`lesson-${lessonid}`,handleComment)
-        }
-    },[lessonid])
-    return (
-        <div>
-           <ul>
-               {lesson.map(lesson =>(
+        prevCount.current =count
+    },[count])
 
-               <li key={lesson.id}
-               style={{
-                   color: lessonid===lesson.id ?
-                   'red':
-                   '#333'
-                }}
-               onClick={()=>setlessonid(lesson.id)}
-               >
-                   {lesson.title}
-               </li>
-               ))}
-           </ul>
+    const handleStart=()=>{
+        timerId.current =setInterval(() => {
+            setcount(prev=>prev-1)
+        }, 1000)
+        console.log('start',timerId.current);
+
+    }
+
+    const handleStop=()=>{
+        clearInterval(timerId.current)
+        console.log('stop',timerId.current);
+        
+    }
+    console.log(count,prevCount.current);
+
+
+    return (
+        <div style={{padding :20}}>
+            <h1 ref={h1ref}>{count}</h1>
+            <button onClick={handleStart} >start</button>
+            <button onClick={handleStop} >stop</button>
         </div>
     )
 }
