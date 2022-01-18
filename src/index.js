@@ -4,7 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-console.log(React);
+// fake comment
+function emitcomment(id){
+setInterval(()=>{
+  window.dispatchEvent(new CustomEvent(`lesson-${id}`,{detail:`Noi dung comment cua lesson ${id}`})
+)
+},2000)
+}
+emitcomment(1)
+emitcomment(2)
+emitcomment(3)
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
