@@ -1,41 +1,62 @@
 import React from 'react'
-import { useEffect,useState,useLayoutEffect,useRef } from 'react'
-import Contentfake from './Contentfake'
-//useRef
+import { useMemo,useState,useLayoutEffect,useRef,useCallback } from 'react'
+
+//usememoo
+//tranh rerender 
 //
 
 export default function Fake() {
-    const [count, setcount] = useState(60)
-    const [count2, setcount2] = useState(60)
+    const [name, setname] = useState('')
+    const [price, setprice] = useState('')
+    const [products, setproducts] = useState([])
 
+    const nameref = useRef()
 
+    const handleSubmit=()=>{
+        setproducts([...products,{
+            name,
+            price : +price
+        }])
+        setname('')
+        setprice('')
 
-    const prevCount = useRef()
+        nameref.current.focus()
 
-   
-    useEffect(()=>{
-        prevCount.current =count
-    },[count])
-
-    const handleStart=()=>{  
-            setcount(count-1)
-       
     }
-    const handleStart2=()=>{  
-        setcount2(count2-1)
-   
-}
+
+    const total = useMemo(() => {
+        const result = products.reduce((result,product)=>{
+            console.log('tinhh');
+            return result +product.price
+        },0)
+
+        return result
+    }, [products])
+    
+
 
 
     return (
         <div style={{padding :20}}>
-            <h1 >{count}</h1>
-            <button onClick={handleStart} >+1</button>
-            <h1 >{count2}</h1>
-            <button onClick={handleStart2} >+1</button>
-           
+            <input ref={nameref} value={name} onChange={e=>setname(e.target.value)} placeholder='enter name'/>
 
-            <Contentfake count={count}/>
+            <input value={price} onChange={e=>setprice(e.target.value)} placeholder='enter price'/>
+
+            <br/>
+
+            <button onClick={handleSubmit}>submit</button>
+
+            <br/>
+            total:{total}
+            <ul>
+                {
+                    products.map((product,i)=>(
+                        <li key={i}>{product.name}-{product.price}</li>
+                    )
+                    )
+                }
+            </ul>
+
         </div>
     )
 }
