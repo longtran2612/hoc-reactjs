@@ -20,6 +20,18 @@ export default function Content() {
      const [size, setsize] = useState(
          window.innerWidth
      )
+
+    const [coundown, setcoundown] = useState(180)
+
+    useEffect(()=>{
+       const timerid = setInterval(()=>{
+            setcoundown(prev =>
+                prev-1
+            )
+        },1000)
+        return ()=> clearInterval(timerid)
+    },[])
+    
     //useEffect(callback,[dependentces])
     useEffect(()=>{
         console.log('title changed')
@@ -56,6 +68,10 @@ export default function Content() {
     return (
       <div>
           <h1>{size}</h1>
+          <h1>
+           {coundown}
+       </h1>
+
           {
               tabs.map(tab=>(
                   <button key={tab}
@@ -84,7 +100,7 @@ export default function Content() {
                
            
        }
-
+       
       </div>
           
     )
