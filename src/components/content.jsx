@@ -21,7 +21,17 @@ export default function Content() {
          window.innerWidth
      )
 
+     const [avatar, setavatar] = useState()
+
     const [coundown, setcoundown] = useState(180)
+
+    useEffect(()=>{
+        //clean up
+
+        return()=>
+        avatar && URL.revokeObjectURL(avatar.preview)
+
+    },[avatar])
 
     useEffect(()=>{
        const timerid = setInterval(()=>{
@@ -62,6 +72,12 @@ export default function Content() {
         window.addEventListener('resize',handleResize)
     })
     
+   const handlePreview =(e)=>{
+       const file = e.target.files[0]
+      file.preview= URL.createObjectURL(file)
+      setavatar(file)
+   }
+    
     
     
 
@@ -71,6 +87,10 @@ export default function Content() {
           <h1>
            {coundown}
        </h1>
+       {
+           avatar && <img src={avatar.preview} alt='' width='80%'/>
+       }
+       <input type="file" onChange={handlePreview}/>
 
           {
               tabs.map(tab=>(
