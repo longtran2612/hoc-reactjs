@@ -3,23 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {ThemeProvider} from './provider/ThemeProvider';
-// fake comment
-function emitcomment(id){
-setInterval(()=>{
-  window.dispatchEvent(new CustomEvent(`lesson-${id}`,{detail:`Noi dung comment cua lesson ${id}`})
-)
-},2000)
-}
-emitcomment(1)
-emitcomment(2)
-emitcomment(3)
+import {StoreProvider} from './store'
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider >
+   <StoreProvider>
     <App />
-    </ThemeProvider>
+    </StoreProvider>
+   
 
   </React.StrictMode>,
   document.getElementById('root')

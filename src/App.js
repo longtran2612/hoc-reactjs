@@ -1,22 +1,33 @@
 import './App.css';
-import{useContext, useState,createContext} from 'react';
-import Comment from './components/Fake';
-import { themeContext } from './provider/ThemeProvider';
-
-
+import {useStore,actions} from './store'
+import { savetodo, settodo } from './store/Actions';
 function App() {
 
-const [show1, setshow1] = useState(false)
-
-const context = useContext(themeContext)
-  
-  return (
+  const [state,dispatch]= useStore()
+  const {todos,todo} = state
+  console.log(todo);
+  const handleAdd=()=>{
+    dispatch(actions.savetodo(todo))
+    dispatch(actions.settodo(''))
     
-    <div className="App" style={{padding :20}}>
-      <button onClick={()=>setshow1(!show1)}>show1</button>
+    
+  }
 
-      <button onClick={context.handleTheme}>chage theme</button>
-      {show1 && <Comment /> }
+  return (
+    <div className="App" style={{padding :20}}>
+    <h1>app.js</h1>
+      <input value={todo}
+      placeholder='enter todo...'
+      onChange={e=>{dispatch(actions.settodo(e.target.value))}}
+      />
+      <button onClick={handleAdd}>add</button>
+      <ul>
+        {todos.map((todo,i)=>(
+          <li key={i}>{todo}
+            <span onClick={()=>dispatch(actions.deletetodo(i))}>&times;</span>
+          </li>
+        ))}
+      </ul>
      
     </div>
   );
