@@ -2,13 +2,16 @@ import React from 'react'
 import { useReducer,useState,useRef,useCallback } from 'react'
 import { setjob,savejob,deletejob } from '../redux/actions'
 import reducer , { initState } from '../redux/reducer' 
+
+import Page from './page'
 //useReducer
 // init state
 // action:
 // reducer
 // dispatch : kick hoat 1 acction
 
-
+//useContext
+//compA => b => c => compA=> C
 
 
 
@@ -16,7 +19,7 @@ import reducer , { initState } from '../redux/reducer'
 export default function Fake() {
     const [state, dispatch] = useReducer(reducer,initState)
    
-    console.log(state);
+
 
     const{job,jobs}= state
 
@@ -38,7 +41,7 @@ export default function Fake() {
          onChange={e=>{
              dispatch(setjob(e.target.value))
          }} value={job} placeholder='enter todo'/>
-         <button onClick={handleadd} >add</button>
+         <button  onClick={handleadd} >add</button>
          <ul>
              {
                  jobs.map((job,i)=>(
@@ -51,6 +54,8 @@ export default function Fake() {
              }
 
          </ul>
+     
+         <Page />
         </div>
     )
 }
