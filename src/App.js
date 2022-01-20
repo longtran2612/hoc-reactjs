@@ -1,20 +1,23 @@
 import './App.css';
-import{useState} from 'react';
-import Content from './components/content';
+import{useContext, useState,createContext} from 'react';
 import Comment from './components/Fake';
+import { themeContext } from './provider/ThemeProvider';
+
+
 function App() {
 
-const [show, setshow] = useState(false)
 const [show1, setshow1] = useState(false)
- 
+
+const context = useContext(themeContext)
   
   return (
+    
     <div className="App" style={{padding :20}}>
-      <button onClick={()=>setshow(!show)}>show</button>
-      {show && <Content/> }
-
       <button onClick={()=>setshow1(!show1)}>show1</button>
-      {show1 && <Comment/> }
+
+      <button onClick={context.handleTheme}>chage theme</button>
+      {show1 && <Comment /> }
+     
     </div>
   );
 }
