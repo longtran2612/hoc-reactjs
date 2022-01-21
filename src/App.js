@@ -1,29 +1,30 @@
+import { Routes ,Route,Link} from 'react-router-dom';
+
 import './App.css';
-import Video from './Video'
-import {useEffect,useRef} from 'react'
+import Heading from './components/heading/Heading';
+import Paragrap from './components/paragrap/Paragrap';
+
+// chia nho css ko bi trung 
+
+// css module
+
 
 function App() {
- const videoref= useRef()
-
-  useEffect(()=>{
-    console.log(videoref);
-  })
-
-
- const handlePlay=()=>{
-   videoref.current.play()
- }
- const handlePause=()=>{
-  videoref.current.pause()
-}
-
+ 
   return (
     <div className="App" style={{padding :20}}>
     <h1>app.js</h1>
-    <Video ref={videoref}/>
-    <br/>
-    <button onClick={handlePlay}>play</button>
-    <button onClick={handlePause}>pause</button>
+      <nav>
+        <ul>
+          <li> <Link to='/heading'> heading</Link></li>
+          <li> <Link to='/paragrap'> paragrap</Link></li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path='heading' element={<Heading/>}/>
+        <Route path='paragrap' element={<Paragrap/>}/>
+      </Routes>
     
     
     </div>
