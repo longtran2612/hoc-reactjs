@@ -1,32 +1,21 @@
-import { Routes ,Route,Link} from 'react-router-dom';
+import { Typography, Divider } from 'antd';
 
 import './App.css';
-import Heading from './components/heading/Heading';
-import Paragrap from './components/paragrap/Paragrap';
 
-// chia nho css ko bi trung 
-
-// css module
+import TodoList from './components/TodoList';
+import Filters from './components/Filters';
 
 
+const { Title } = Typography;
 function App() {
  
   return (
-    <div className="App" style={{padding :20}}>
-    <h1>app.js</h1>
-      <nav>
-        <ul>
-          <li> <Link to='/heading'> heading</Link></li>
-          <li> <Link to='/paragrap'> paragrap</Link></li>
-        </ul>
-      </nav>
-
-      <Routes>
-        <Route path='heading' element={<Heading/>}/>
-        <Route path='paragrap' element={<Paragrap/>}/>
-      </Routes>
-    
-    
+  
+    <div className='app'>
+      <Title style={{ textAlign: 'center' }}>TODO APP with REDUX</Title>
+      <Filters />
+      <Divider />
+      <TodoList />
     </div>
   );
 }
